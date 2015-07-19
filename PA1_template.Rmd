@@ -36,7 +36,7 @@ cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
 
 ### <a name="input">Data input</a>
 As a first step, data will be imported. `raw_data` will contain the complete data set, while `activity` will contain only the non-NA values:
-```{r}
+```{r init, cache=TRUE}
 ACTIVITY_FILE <- "activity.csv"
 
 library(ggplot2)
@@ -47,13 +47,17 @@ activity <- raw.data[!is.na(raw.data$steps), ]
 
 ### <a name="mean_steps">Mean total number of steps taken per day</a>
 
-Number of steps taken each day:
-```[r]
-daily.mean <- aggregate(activity$steps ~ activity$date, list(activity$date), sum)
-```
-
-Daily plot:
+Number of steps taken each day and daily plot:
 ```{r, fig.width=6, fig.height=2.5}
+ACTIVITY_FILE <- "activity.csv"
+
+library(ggplot2)
+
+raw.data <- read.csv(ACTIVITY_FILE)
+activity <- raw.data[!is.na(raw.data$steps), ]
+
+daily.mean <- aggregate(activity$steps ~ activity$date, list(activity$date), sum)
+
 g <- ggplot(daily.mean, 
             aes(as.Date(activity$date), activity$steps),
             xlab = "Date", ylab = "Number of steps")

@@ -1,0 +1,70 @@
+---
+title: "Peer assessment"
+output: html_document
+---
+
+### Index to sections
+
+- [Project introduction](#intro)
+- [Fata file format](#data_format)
+- [Data input](#input)
+- [What is mean total number of steps taken per day?](#mean_steps)
+- [What is the average daily activity pattern?](#daily_activity)
+- [Imputing missing values](#missing_values)
+- [Differences in activity patterns between weekdays and weekends?](#patterns)
+
+### <a name="intro">Project introduction</a>
+
+This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
+
+### <a name="data_format">Data file format</a>
+
+The data is provided as a CSV (Comma Separated Value) file, with the following fields:
+
+```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tabl <- "
+| Field | Variable     | Description |
+|-------|--------------|-------|
+| 1     | **steps**    | Number of steps taking in a 5-minute interval|
+| 2     | **date**     | The date on which the measurement was taken in YYYY-MM-DD format|
+| 3     | **interval** | Identifier for the 5-minute interval in which measurement was taken |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+**Note**: Non-available data is flagged as **NA** in the CSV steps column.
+
+### <a name="input">Data input</a>
+As a first step, data will be imported. `raw_data` will contain the complete data set, while `activity` will contain only the non-NA values:
+```{r}
+ACTIVITY_FILE <- "activity.csv"
+
+library(ggplot2)
+
+raw.data <- read.csv(ACTIVITY_FILE)
+activity <- raw.data[!is.na(raw.data$steps), ]
+```
+
+### <a name="mean_steps">Mean total number of steps taken per day</a>
+
+Number of steps taken each day:
+```[r]
+daily.mean <- aggregate(activity$steps ~ activity$date, list(activity$date), sum)
+```
+
+Daily plot:
+```{r, fig.width=6, fig.height=2.5}
+g <- ggplot(daily.mean, 
+            aes(as.Date(activity$date), activity$steps),
+            xlab = "Date", ylab = "Number of steps")
+g <- g + xlab("Date") + ylab("Number of steps")
+g <- g + geom_histogram(stat="identity")
+print(g)
+```
+
+### <a name="daily_activity">Average daily activity pattern</a>
+
+### <a name="missing_values">Imputing missing values</a>
+
+### <a name="patterns">Differences in activity patterns between weekdays and weekends?</a>
+

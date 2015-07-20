@@ -64,6 +64,18 @@ g <- ggplot(daily.mean,
 g <- g + xlab("Date") + ylab("Number of steps")
 g <- g + geom_histogram(stat="identity")
 print(g)
+
+```
+```{r table3, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+mean.total <- mean(daily.mean[, "activity$steps"])
+median.total <- median(daily.mean[, "activity$steps"])
+tabl <- sprintf("
+| Variable   | Value |
+|------------|-------|
+| Median     | %.1f  |
+| Mean       | %.1f  |", median.total, mean.total)
+cat(tabl)
+
 ```
 
 ### <a name="daily_activity">Average daily activity pattern</a>
